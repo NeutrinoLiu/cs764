@@ -25,6 +25,7 @@ public:
 	Id_t getId ();
 	Value_t col1;
 	Value_t col2;
+	size_t getHash();
 private:
 	Id_t _id; // name col0 as _id, not modifiable
 };
@@ -39,6 +40,7 @@ public:
 
 #ifdef BUILTIN_SEQUENTIAL_VECTOR
 	std::vector<Row*> table; 
+	std::vector<size_t> hashes; // integrity check
 	Row* getRow(Id_t query_id) {
 		return table[query_id];
 	};

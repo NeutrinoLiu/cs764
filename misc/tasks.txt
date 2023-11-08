@@ -4,7 +4,7 @@ Disable (not remove!) excessive tracing output
 Define class for data records
 Add data records class def (incl mem mgmt) to iterators	// Bangya
 
-Add data generation (random values) in ScanIterator
+Add data generation (random values) in ScanIterator // Yiwei
 Test with simple table class -- scan only
 
 Add predicate evaluation to verifyIterator
