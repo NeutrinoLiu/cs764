@@ -24,7 +24,6 @@ class Storage {
     };
     Storage(std::string file_name, mode_t _mode, dev_type_t _dev_type = HDD);
     ~Storage();
-    size_t access(void* buf);
     size_t access(void* buf, size_t sz);
 
    protected:
@@ -50,8 +49,9 @@ class ReadStream {
     std::unique_ptr<Storage> hdd, ssd;
     std::unique_ptr<uint8_t[]> buffer;
     size_t offset, buffer_size;
-    //    bool bSSDCache;
-    void copy2ssd();
+    std::string file_name;
+    bool bCache;
+    void load_buf();
 
    public:
     ReadStream(std::string file_name, bool enable_cache = true);
