@@ -17,19 +17,6 @@ public:
 private:
 }; // class Plan
 
-class Row
-{
-public:
-	Row (Id_t new_id, Value_t new_col1=0, Value_t new_col2=0);
-	// no need for destroyer
-	Id_t getId ();
-	Value_t col1;
-	Value_t col2;
-	size_t getHash();
-private:
-	Id_t _id; // name col0 as _id, not modifiable
-};
-
 class Iterator
 {
 public:
@@ -37,16 +24,4 @@ public:
 	virtual ~Iterator ();
 	void run ();	// traverse
 	virtual bool next () = 0;
-
-#ifdef BUILTIN_SEQUENTIAL_VECTOR
-	std::vector<Row*> table; 
-	std::vector<size_t> hashes; // integrity check
-	Row* getRow(Id_t query_id) {
-		return table[query_id];
-	};
-	// Bangya: each element in the table vector is a ptr toward a Row object
-#endif
-
-private:
-	RowCount _count;
 }; // class Iterator
