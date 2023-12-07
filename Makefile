@@ -10,7 +10,7 @@ DOCS=Tasks.txt
 SCRS=
 
 # headers and code sources
-HDRS=	defs.h \
+HDRS=	defs.h common.h \
 		Iterator.h Scan.h Filter.h Sort.h
 SRCS=	defs.cpp Assert.cpp Test.cpp \
 		Iterator.cpp Scan.cpp Filter.cpp Sort.cpp
@@ -29,7 +29,7 @@ trace : Test.exe Makefile
 	./Test.exe >> trace
 	@size -t Test.exe $(OBJS) | sort -r >> trace
 
-$(OBJS) : Makefile defs.h
+$(OBJS) : Makefile defs.h common.h 
 Test.o : Iterator.h Scan.h Filter.h Sort.h
 Iterator.o Scan.o Filter.o Sort.o : Iterator.h
 Scan.o : Scan.h

@@ -1,19 +1,20 @@
+#define TRACE_OUT true
 #include "Sort.h"
 
 SortPlan::SortPlan (Plan * const input) : _input (input)
 {
-	TRACE (true);
+	TRACE (TRACE_OUT);
 } // SortPlan::SortPlan
 
 SortPlan::~SortPlan ()
 {
-	TRACE (true);
+	TRACE (TRACE_OUT);
 	delete _input;
 } // SortPlan::~SortPlan
 
 Iterator * SortPlan::init () const
 {
-	TRACE (true);
+	TRACE (TRACE_OUT);
 	return new SortIterator (this);
 } // SortPlan::init
 
@@ -21,7 +22,7 @@ SortIterator::SortIterator (SortPlan const * const plan) :
 	_plan (plan), _input (plan->_input->init ()),
 	_consumed (0), _produced (0)
 {
-	TRACE (true);
+	TRACE (TRACE_OUT);
 
 	while (_input->next ())  ++ _consumed;
 	delete _input;
@@ -32,7 +33,7 @@ SortIterator::SortIterator (SortPlan const * const plan) :
 
 SortIterator::~SortIterator ()
 {
-	TRACE (true);
+	TRACE (TRACE_OUT);
 
 	traceprintf ("produced %lu of %lu rows\n",
 			(unsigned long) (_produced),
@@ -41,7 +42,7 @@ SortIterator::~SortIterator ()
 
 bool SortIterator::next ()
 {
-	TRACE (true);
+	TRACE (TRACE_OUT);
 
 	if (_produced >= _consumed)  return false;
 

@@ -2,9 +2,9 @@
 #include <vector>
 
 struct Record {
-    static std::vector<int> COL_SIZE;
+    static std::vector<int> _colSize;
     Record(char * base);
     char* get(int columnNum, int &size);
 private:
-    char * base;
+    char * _base;
 };

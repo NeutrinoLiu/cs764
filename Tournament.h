@@ -1,5 +1,4 @@
 #include "common.h"
-#include "Plan.h"
 #include "Iterator.h"
 
 class TournamentTreePlan : public Plan

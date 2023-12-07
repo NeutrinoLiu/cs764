@@ -1,11 +1,8 @@
 #pragma once
-#define BUILTIN_SEQUENTIAL_VECTOR
 #include "defs.h"
-#include <vector>
+#include "common.h"
 
 typedef uint64_t RowCount;
-typedef uint64_t Id_t; // 8 Byte for id
-typedef uint64_t Value_t; // 8 Byte per column value
 
 class Plan
 {
@@ -24,4 +21,6 @@ public:
 	virtual ~Iterator ();
 	void run ();	// traverse
 	virtual bool next () = 0;
+private:
+	RowCount _count;
 }; // class Iterator
