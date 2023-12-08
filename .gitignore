@@ -3,4 +3,4 @@
 .vscode/*
 build/
 test/
-meson.build
+.DS_Store
