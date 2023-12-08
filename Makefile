@@ -1,8 +1,8 @@
 CPPOPT=-g -Og -D_DEBUG
 # -O2 -Os -Ofast
 # -fprofile-generate -fprofile-use
-CPPFLAGS=$(CPPOPT) -Wall -ansi -pedantic
-# -Wparentheses -Wno-unused-parameter -Wformat-security
+CPPFLAGS=$(CPPOPT) -Wall -ansi -pedantic --std=c++17
+# -Wparentheses -Wno-unused-parameter -Wformat-security \
 # -fno-rtti -std=c++11 -std=c++98
 
 # documents and scripts
@@ -10,14 +10,14 @@ DOCS=Tasks.txt
 SCRS=
 
 # headers and code sources
-HDRS=	defs.h common.h \
-		Iterator.h Scan.h Filter.h Sort.h
+HDRS=	defs.h \
+		Iterator.h Scan.h Filter.h Sort.h common.h storage.hpp
 SRCS=	defs.cpp Assert.cpp Test.cpp \
-		Iterator.cpp Scan.cpp Filter.cpp Sort.cpp
+		Iterator.cpp Scan.cpp Filter.cpp Sort.cpp common.cpp storage.hpp
 
 # compilation targets
 OBJS=	defs.o Assert.o Test.o \
-		Iterator.o Scan.o Filter.o Sort.o
+		Iterator.o Scan.o Filter.o Sort.o storage.o common.o storage.o
 
 # default target
 #
@@ -35,6 +35,8 @@ Iterator.o Scan.o Filter.o Sort.o : Iterator.h
 Scan.o : Scan.h
 Filter.o : Filter.h
 Sort.o : Sort.h
+common.o : common.h
+storage.o : storage.hpp
 
 list : Makefile
 	echo Makefile $(HDRS) $(SRCS) $(DOCS) $(SCRS) > list

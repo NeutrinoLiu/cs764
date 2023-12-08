@@ -8,9 +8,9 @@ typedef uint8_t byte;
 
 #define slotsof(a)	(sizeof (a) / sizeof (a[0]))
 
-#ifndef nullptr
-#define nullptr	((void *) NULL)
-#endif
+// #ifndef nullptr
+// #define nullptr	((void *) NULL)
+// #endif
 
 #define yesno(b)	((b) ? "yes" : "no")
 

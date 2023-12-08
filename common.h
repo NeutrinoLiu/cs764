@@ -1,10 +1,17 @@
+#pragma once
+
 #include <stdlib.h>
 #include <vector>
+#include "defs.h"
+#include "consts.h"
 
-struct Record {
+struct Row {
     static std::vector<int> _colSize;
-    Record(char * base);
-    char* get(int columnNum, int &size);
+    Row(char * base);
+    char* col(int columnNum, int &size);
 private:
     char * _base;
 };
+
+extern void genFileName(int index, char * label, char* const retName);
+extern void genSingleRow(char * buff, int size);

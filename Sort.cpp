@@ -27,6 +27,17 @@ SortIterator::SortIterator (SortPlan const * const plan) :
 	while (_input->next ())  ++ _consumed;
 	delete _input;
 
+	int numOfFiles = _consumed / NUM_ROW_PER_FILE;
+	for (int i=0; i < numOfFiles; i++ ) {
+		char fileNamebuff[MAX_FILE_NAME_LENGTH];
+		genFileName(i, "scan", fileNamebuff);
+		_inFiles.push_back(new ReadStream(fileNamebuff));
+		genFileName(i, "scan", fileNamebuff);
+		_inFiles.push_back(new ReadStream(fileNamebuff));
+	}
+
+	// TODO init with in memory sorting 
+
 	traceprintf ("consumed %lu rows\n",
 			(unsigned long) (_consumed));
 } // SortIterator::SortIterator
