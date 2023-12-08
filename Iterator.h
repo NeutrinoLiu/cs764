@@ -1,6 +1,6 @@
 #pragma once
+
 #include "defs.h"
-#include "common.h"
 
 typedef uint64_t RowCount;
 
@@ -19,7 +19,7 @@ class Iterator
 public:
 	Iterator ();
 	virtual ~Iterator ();
-	void run ();	// traverse
+	void run ();
 	virtual bool next () = 0;
 private:
 	RowCount _count;

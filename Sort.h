@@ -1,4 +1,3 @@
-#include "storage.hpp"
 #include "Iterator.h"
 
 class SortPlan : public Plan
@@ -22,6 +21,4 @@ private:
 	SortPlan const * const _plan;
 	Iterator * const _input;
 	RowCount _consumed, _produced;
-	std::vector<ReadStream *> _inFiles;
-	std::vector<WriteStream *> _outFiles;
 }; // class SortIterator

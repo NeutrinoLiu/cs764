@@ -1,8 +1,8 @@
 CPPOPT=-g -Og -D_DEBUG
 # -O2 -Os -Ofast
 # -fprofile-generate -fprofile-use
-CPPFLAGS=$(CPPOPT) -Wall -ansi -pedantic --std=c++17
-# -Wparentheses -Wno-unused-parameter -Wformat-security \
+CPPFLAGS=$(CPPOPT) -Wall -ansi -pedantic
+# -Wparentheses -Wno-unused-parameter -Wformat-security
 # -fno-rtti -std=c++11 -std=c++98
 
 # documents and scripts
@@ -11,13 +11,17 @@ SCRS=
 
 # headers and code sources
 HDRS=	defs.h \
-		Iterator.h Scan.h Filter.h Sort.h common.h storage.hpp
+		Iterator.h Scan.h Filter.h Sort.h
 SRCS=	defs.cpp Assert.cpp Test.cpp \
-		Iterator.cpp Scan.cpp Filter.cpp Sort.cpp common.cpp storage.hpp
+		Iterator.cpp Scan.cpp Filter.cpp Sort.cpp
 
 # compilation targets
 OBJS=	defs.o Assert.o Test.o \
-		Iterator.o Scan.o Filter.o Sort.o storage.o common.o storage.o
+		Iterator.o Scan.o Filter.o Sort.o
+
+# RCS assists
+REV=-q -f
+MSG=no message
 
 # default target
 #
@@ -29,19 +33,23 @@ trace : Test.exe Makefile
 	./Test.exe >> trace
 	@size -t Test.exe $(OBJS) | sort -r >> trace
 
-$(OBJS) : Makefile defs.h common.h 
+$(OBJS) : Makefile defs.h
 Test.o : Iterator.h Scan.h Filter.h Sort.h
 Iterator.o Scan.o Filter.o Sort.o : Iterator.h
 Scan.o : Scan.h
 Filter.o : Filter.h
 Sort.o : Sort.h
-common.o : common.h
-storage.o : storage.hpp
 
 list : Makefile
 	echo Makefile $(HDRS) $(SRCS) $(DOCS) $(SCRS) > list
 count : list
 	@wc `cat list`
+
+ci :
+	ci $(REV) -m"$(MSG)" $(HDRS) $(SRCS) $(DOCS) $(SCRS)
+	ci -l $(REV) -m"$(MSG)" Makefile
+co :
+	co $(REV) -l $(HDRS) $(SRCS) $(DOCS) $(SCRS)
 
 clean :
 	@rm -f $(OBJS) Test.exe Test.exe.stackdump trace

@@ -1,6 +1,4 @@
 #include "Iterator.h"
-#include "storage.hpp"
-#include "common.h"
 
 class ScanPlan : public Plan
 {
@@ -11,7 +9,6 @@ public:
 	Iterator * init () const;
 private:
 	RowCount const _count;
-	std::vector<WriteStream *> _files;
 }; // class ScanPlan
 
 class ScanIterator : public Iterator

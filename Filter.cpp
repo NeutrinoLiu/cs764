@@ -1,24 +1,19 @@
-#define TRACE_OUT true
 #include "Filter.h"
-
-/*
-	Just the verifier
-*/
 
 FilterPlan::FilterPlan (Plan * const input) : _input (input)
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 } // FilterPlan::FilterPlan
 
 FilterPlan::~FilterPlan ()
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 	delete _input;
 } // FilterPlan::~FilterPlan
 
 Iterator * FilterPlan::init () const
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 	return new FilterIterator (this);
 } // FilterPlan::init
 
@@ -26,12 +21,12 @@ FilterIterator::FilterIterator (FilterPlan const * const plan) :
 	_plan (plan), _input (plan->_input->init ()),
 	_consumed (0), _produced (0)
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 } // FilterIterator::FilterIterator
 
 FilterIterator::~FilterIterator ()
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 
 	delete _input;
 
@@ -42,7 +37,7 @@ FilterIterator::~FilterIterator ()
 
 bool FilterIterator::next ()
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 
 	do
 	{

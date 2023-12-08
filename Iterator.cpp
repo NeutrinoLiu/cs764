@@ -1,39 +1,31 @@
-#define TRACE_OUT true
 #include "Iterator.h"
-
-/*
-	Plan is just a table
-*/
-
-// ========== PLAN
 
 Plan::Plan ()
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 } // Plan::Plan
 
 Plan::~Plan ()
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 } // Plan::~Plan
 
-// ========== ITER
-
-Iterator::Iterator ()
+Iterator::Iterator () : _count (0)
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 } // Iterator::Iterator
 
 Iterator::~Iterator ()
 {
-	TRACE (TRACE_OUT);
+	TRACE (true);
 } // Iterator::~Iterator
-
 
 void Iterator::run ()
 {
-	TRACE (TRACE_OUT);
-	while (next ()) ++ _count;
+	TRACE (true);
+
+	while (next ())  ++ _count;
+
 	traceprintf ("entire plan produced %lu rows\n",
 			(unsigned long) _count);
 } // Iterator::run
