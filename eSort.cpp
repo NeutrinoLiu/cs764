@@ -56,8 +56,8 @@ bool eSortIterator::next ()
 {
 	TRACE (true);
 
-	if (tt.next()) {
-		_ws.write(tt.get(), Row::size);
+	if (_tt.next()) {
+		_ws.write(_tt.get(), Row::size);
 		++ _produced;
 		return true;
 	} else {
