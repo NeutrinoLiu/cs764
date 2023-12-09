@@ -31,8 +31,8 @@ eSortIterator::eSortIterator (eSortPlan const * const plan) :
 	delete _input;
 
 	for (int i=0; i < numOfReadStream; i++) {
-		_fanInList.emplace_back(
-			genFileName(i, FILE_PREFIX_INNER_SORTED)
+		_fanInList.push_back(
+			new DiskQueue(genFileName(i, FILE_PREFIX_INNER_SORTED)) 
 		);
 	}
 	_tt = TournamentTree(_fanInList);
@@ -45,7 +45,10 @@ eSortIterator::~eSortIterator ()
 {
 	TRACE (true);
 
-	_fanInList.clear(); // actually you dont need to
+	for (auto i = _fanInList.begin(); i != _fanInList.end(); i++) {
+		delete *i;
+	}
+	_fanInList.clear();
 	
 	traceprintf ("produced %lu of %lu rows\n",
 			(unsigned long) (_produced),

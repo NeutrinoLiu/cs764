@@ -53,7 +53,9 @@ bool InSortIterator::next ()
 	
 	if (numFetchedRow) {
 		qsort(buff, numFetchedRow, Row::size, Row::compare);
-		_fanInList.emplace_back(buff, numFetchedRow);
+		_fanInList.push_back(
+			new MemQueue(buff, numFetchedRow)
+		);
 	}
 
 	if (_fanInList.size() == MEM_SIZE / CACHE_SIZE -1) { // memory is full
@@ -78,6 +80,9 @@ bool InSortIterator::next ()
 
 void InSortIterator::resetFanInList() 
 {
+	for (auto i = _fanInList.begin(); i != _fanInList.end(); i++) {
+		delete *i;
+	}
 	_fanInList.clear();
 }
 

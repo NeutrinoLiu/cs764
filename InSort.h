@@ -28,5 +28,5 @@ private:
 	ReadStream _rs;
 	WriteStream _ws;
 	int _ws_ctr;
-	vector<Queue> _fanInList;
+	vector<Queue *> _fanInList;
 }; // class InSortIterator

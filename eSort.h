@@ -24,6 +24,6 @@ private:
 	Iterator * const _input;
 	RowCount _consumed, _produced;
 	WriteStream _ws;
-	vector<Queue> _fanInList;
+	vector<Queue *> _fanInList;
 	TournamentTree _tt;
 }; // class eSortIterator
