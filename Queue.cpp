@@ -1,4 +1,9 @@
 #include "Queue.h"
+#include <string.h>
+
+Queue::~Queue() {
+
+}
 
 MemQueue::MemQueue(char * src, int length) :
 _ctr(0), _len(length), _size(Row::size) {

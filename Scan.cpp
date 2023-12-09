@@ -11,7 +11,7 @@ ScanPlan::~ScanPlan ()
 	TRACE (true);
 } // ScanPlan::~ScanPlan
 
-Iterator * ScanPlan::init () const
+Iterator * ScanPlan::init () 
 {
 	TRACE (true);
 	return new ScanIterator (this);
@@ -50,3 +50,7 @@ bool ScanIterator::next ()
 	++ _count;
 	return true;
 } // ScanIterator::next
+
+char* ScanIterator::get() {
+	return (char*) NULL;
+}

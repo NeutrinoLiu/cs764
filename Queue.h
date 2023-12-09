@@ -1,8 +1,10 @@
+#pragma once
 #include "common.h"
 
 struct Queue {
     virtual bool next() = 0;
     virtual char * get() = 0;
+    virtual ~Queue();
 };
 
 struct MemQueue : public Queue{

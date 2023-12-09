@@ -67,7 +67,7 @@ genFileName(int index, string prefix) {
 }
 
 void initRandSeed() {
-    srand(static_cast<unsigned int>(std::time(NULL)));
+    srand(static_cast<unsigned int>(time(NULL)));
 }
 
 string

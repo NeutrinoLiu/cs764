@@ -7,7 +7,7 @@ class ScanPlan : public Plan
 public:
 	ScanPlan (RowCount const count);
 	~ScanPlan ();
-	Iterator * init () const;
+	Iterator * init ();
 private:
 	RowCount const _count;
 }; // class ScanPlan
@@ -18,6 +18,7 @@ public:
 	ScanIterator (ScanPlan const * const plan);
 	~ScanIterator ();
 	bool next ();
+	char* get();
 private:
 	ScanPlan const * const _plan;
 	RowCount _count;

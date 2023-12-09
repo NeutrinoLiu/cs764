@@ -8,7 +8,7 @@ class InSortPlan : public Plan
 public:
 	InSortPlan (Plan * const input);
 	~InSortPlan ();
-	Iterator * init () const;
+	Iterator * init ();
 private:
 	Plan * const _input;
 }; // class InSortPlan
@@ -19,6 +19,7 @@ public:
 	InSortIterator (InSortPlan const * const plan);
 	~InSortIterator ();
 	bool next ();
+	char* get();
 	void resetFanInList();
 	int getNumOfFiles();
 private:
@@ -26,7 +27,7 @@ private:
 	Iterator * const _input;
 	RowCount _consumed, _produced;
 	ReadStream _rs;
-	WriteStream _ws;
+	WriteStream* _ws;
 	int _ws_ctr;
 	vector<Queue *> _fanInList;
 }; // class InSortIterator

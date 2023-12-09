@@ -12,7 +12,7 @@ eSortPlan::~eSortPlan ()
 	delete _input;
 } // eSortPlan::~eSortPlan
 
-Iterator * eSortPlan::init () const
+Iterator * eSortPlan::init () 
 {
 	TRACE (true);
 	return new eSortIterator (this);
@@ -35,7 +35,8 @@ eSortIterator::eSortIterator (eSortPlan const * const plan) :
 			new DiskQueue(genFileName(i, FILE_PREFIX_INNER_SORTED)) 
 		);
 	}
-	_tt = TournamentTree(_fanInList);
+	TournamentTreePlan* tt = new TournamentTreePlan(_fanInList);
+	_iter = tt->init();
 
 	traceprintf ("consumed %lu rows\n",
 			(unsigned long) (_consumed));
@@ -59,11 +60,15 @@ bool eSortIterator::next ()
 {
 	TRACE (true);
 
-	if (_tt.next()) {
-		_ws.write(_tt.get(), Row::size);
+	if (_iter->next()) {
+		_ws.write(_iter->get(), Row::size);
 		++ _produced;
 		return true;
 	} else {
 		return false;
 	}
 } // eSortIterator::next
+
+char* eSortIterator::get() {
+	return (char*) NULL;
+}

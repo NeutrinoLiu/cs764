@@ -6,10 +6,12 @@ src= [
   'Assert.cpp',
   'common.cpp',
   'defs.cpp',
-  'Filter.cpp',
   'Iterator.cpp',
   'Scan.cpp',
-  'Sort.cpp',
+  'InSort.cpp',
+  'eSort.cpp',
+  'Queue.cpp',
+  'Tournament.cpp'
 ]
 
 lib = static_library('sort764', src)
@@ -17,4 +19,5 @@ lib = static_library('sort764', src)
 
 executable('test_storage', 'test_storage.cpp', link_with: lib)
 executable('test_scan', 'Test.cpp', link_with: lib)
+executable('test_tournament', 'storage.cpp', 'common.cpp', 'defs.cpp', 'Iterator.cpp', 'Queue.cpp', 'Tournament.cpp', 'TournamentTester.cpp', link_with: lib)
 

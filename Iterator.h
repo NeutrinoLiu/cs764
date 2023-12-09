@@ -10,7 +10,7 @@ class Plan
 public:
 	Plan ();
 	virtual ~Plan ();
-	virtual class Iterator * init () const = 0;
+	virtual class Iterator * init () = 0;
 private:
 }; // class Plan
 
@@ -21,6 +21,7 @@ public:
 	virtual ~Iterator ();
 	void run ();
 	virtual bool next () = 0;
+	virtual char* get() = 0;
 private:
 	RowCount _count;
 }; // class Iterator
