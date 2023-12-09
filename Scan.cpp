@@ -1,6 +1,7 @@
 #include "Scan.h"
 
-ScanPlan::ScanPlan (RowCount const count) : _count (count)
+ScanPlan::ScanPlan (RowCount const count) : 
+_count (count)
 {
 	TRACE (true);
 } // ScanPlan::ScanPlan
@@ -17,7 +18,7 @@ Iterator * ScanPlan::init () const
 } // ScanPlan::init
 
 ScanIterator::ScanIterator (ScanPlan const * const plan) :
-	_plan (plan), _count (0)
+	_plan (plan), _count (0), _ws(genFileName(0, FILE_PREFIX_RAW))
 {
 	TRACE (true);
 } // ScanIterator::ScanIterator
@@ -39,11 +40,12 @@ bool ScanIterator::next ()
 
 	// gen new row
 	string row;
-	for (int i = 0; i < Row::COLMAP.size() - 1; i++) {
-		row += genRandString(Row::COLMAP[i]);
+	for (int i = 0; i < Row::COLWIDTH.size() - 1; i++) {
+		row += genRandString(Row::COLWIDTH[i]);
 	}
 	row += Row::genHash(row);
-	traceprintf("generate a new row: %s with length %zu \n", row.c_str(), row.size());
+	// traceprintf("generate a new row: %s with length %zu \n", row.c_str(), row.size());
+	_ws.write((void *)row.c_str(), row.size());
 
 	++ _count;
 	return true;

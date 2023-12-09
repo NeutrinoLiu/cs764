@@ -21,4 +21,5 @@ public:
 private:
 	ScanPlan const * const _plan;
 	RowCount _count;
+	WriteStream _ws;
 }; // class ScanIterator

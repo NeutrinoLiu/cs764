@@ -6,18 +6,22 @@
 #include <sstream>
 
 #include "const.h"
+#include "storage.hpp"
 
 using namespace std;
 
 struct Row {
+    friend class MemQueue;
     static string genHash(string raw);
-    static vector<int> COLMAP;
+    static int size;
+    static int compare(const void * a, const void * b);
+    static vector<int> COLWIDTH;
 private:
     char * _base;
 public:
     Row(char * base);
-    char * col(int index, int &size);
-    char * hash(int &size);
+    char * col(int index);
+    char * hash();
     void setColMap(vector<int> colMap);
 };
 
