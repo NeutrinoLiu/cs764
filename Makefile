@@ -19,6 +19,10 @@ SRCS=	defs.cpp Assert.cpp Test.cpp \
 OBJS=	defs.o Assert.o Test.o \
 		Iterator.o Scan.o Filter.o Sort.o
 
+# RCS assists
+REV=-q -f
+MSG=no message
+
 # default target
 #
 Test.exe : Makefile $(OBJS)
@@ -40,6 +44,12 @@ list : Makefile
 	echo Makefile $(HDRS) $(SRCS) $(DOCS) $(SCRS) > list
 count : list
 	@wc `cat list`
+
+ci :
+	ci $(REV) -m"$(MSG)" $(HDRS) $(SRCS) $(DOCS) $(SCRS)
+	ci -l $(REV) -m"$(MSG)" Makefile
+co :
+	co $(REV) -l $(HDRS) $(SRCS) $(DOCS) $(SCRS)
 
 clean :
 	@rm -f $(OBJS) Test.exe Test.exe.stackdump trace

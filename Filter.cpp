@@ -1,9 +1,5 @@
 #include "Filter.h"
 
-/*
-	Just the verifier
-*/
-
 FilterPlan::FilterPlan (Plan * const input) : _input (input)
 {
 	TRACE (true);
