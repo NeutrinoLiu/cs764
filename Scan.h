@@ -1,4 +1,5 @@
 #include "Iterator.h"
+#include "common.h"
 
 class ScanPlan : public Plan
 {

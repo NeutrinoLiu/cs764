@@ -1,3 +1,4 @@
+#include "common.h"
 #include "Iterator.h"
 #include "Scan.h"
 #include "Filter.h"
@@ -6,7 +7,8 @@
 int main (int argc, char * argv [])
 {
 	TRACE (true);
-
+	initRandSeed();
+	
 	Plan * const plan = new ScanPlan (7);
 	// new SortPlan ( new FilterPlan ( new ScanPlan (7) ) );
 

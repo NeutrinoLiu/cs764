@@ -37,6 +37,14 @@ bool ScanIterator::next ()
 	if (_count >= _plan->_count)
 		return false;
 
+	// gen new row
+	string row;
+	for (int i = 0; i < Row::COLMAP.size() - 1; i++) {
+		row += genRandString(Row::COLMAP[i]);
+	}
+	row += Row::genHash(row);
+	traceprintf("generate a new row: %s with length %zu \n", row.c_str(), row.size());
+
 	++ _count;
 	return true;
 } // ScanIterator::next
