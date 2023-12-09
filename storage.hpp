@@ -25,11 +25,13 @@ class Storage {
     Storage(std::string file_name, mode_t _mode, dev_type_t _dev_type = HDD);
     ~Storage();
     size_t access(void* buf, size_t sz);
+    inline size_t get_size() { return file_size; }
 
    protected:
     FILE* file;
     mode_t mode;
     dev_type_t dev_type;
+    size_t file_size;
 };
 
 class WriteStream {
@@ -55,5 +57,5 @@ class ReadStream {
 
    public:
     ReadStream(std::string file_name, bool enable_cache = true);
-    void read(void* buf, size_t size);
+    size_t read(void* buf, size_t size);
 };
