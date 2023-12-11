@@ -22,6 +22,7 @@ private:
     std::vector<Queue*> read_iterators; // iterators for reading chunks
     std::vector<TournamentTreeNode*> tree; // tournament tree
     std::vector<TournamentTreeNode*> leaves; // tournament tree leaves
+    char* rowBuffer;
 
     // build the tree from leaves
     void computeTournament(); 

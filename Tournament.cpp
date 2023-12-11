@@ -3,10 +3,13 @@
 #include <cstring>
 // #include <iostream> //TODO comment
 #include "Queue.h"
+#include <common.h>
 
 TournamentTreeNode::TournamentTreeNode(char* row, int chunk_num) : row(row), chunk_num(chunk_num) {}
 
 TournamentTreePlan::TournamentTreePlan(std::vector<Queue*> iterators) {
+    rowBuffer = new char[Row::size];
+
     for (auto iter : iterators) {
         this->read_iterators.push_back(iter);
     }
@@ -29,10 +32,11 @@ TournamentTreePlan::TournamentTreePlan(std::vector<Queue*> iterators) {
 }
 
 TournamentTreePlan::~TournamentTreePlan() {
-
+    delete rowBuffer;
 }
 
 Iterator* TournamentTreePlan::init() {
+    TRACE(true);
     // load leaves
     for (int i = 0; i < read_iterators.size(); i++) {
         if (read_iterators[i]->next()) {
@@ -72,7 +76,7 @@ void TournamentTreePlan::computeTournament() {
         } else if (rightRow == (char*) NULL) {
             // right is infinitely large
             tree[i] = tree[2 * i + 1]; 
-        } else if (strcmp(leftRow, rightRow) < 0) {
+        } else if (Row::compare(leftRow, rightRow) < 0) {
             // left < right -> left up
             tree[i] = tree[2 * i + 1]; 
         } else {
@@ -97,7 +101,7 @@ char* TournamentTreePlan::getRoot() {
 }
 
 char* TournamentTreePlan::popRoot() {
-    char* rt = getRoot();
+    std::copy(getRoot(), getRoot()+Row::size, rowBuffer);
     int chunk = tree[0]->chunk_num;
     // check if chunk exhausted
     if (read_iterators[chunk]->next()) {
@@ -108,12 +112,14 @@ char* TournamentTreePlan::popRoot() {
         leaves[chunk] = new TournamentTreeNode((char*) NULL, chunk);
     }
     computeTournament();
-    return rt;
+    return rowBuffer;
 }
 
-TournamentTreeIterator::TournamentTreeIterator(TournamentTreePlan* plan) : plan(plan) {}
+TournamentTreeIterator::TournamentTreeIterator(TournamentTreePlan* plan) : plan(plan) {
+}
 
-TournamentTreeIterator::~TournamentTreeIterator() {}
+TournamentTreeIterator::~TournamentTreeIterator() {
+}
 
 bool TournamentTreeIterator::next() {
         	TRACE (true);
