@@ -116,10 +116,12 @@ TournamentTreeIterator::TournamentTreeIterator(TournamentTreePlan* plan) : plan(
 TournamentTreeIterator::~TournamentTreeIterator() {}
 
 bool TournamentTreeIterator::next() {
+        	TRACE (true);
     return plan->getRoot() != (char*) NULL;
 }
 
 char* TournamentTreeIterator::get() {
     // return root
+    TRACE (true);
     return plan->popRoot();
 }

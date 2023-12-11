@@ -58,10 +58,12 @@ eSortIterator::~eSortIterator ()
 
 bool eSortIterator::next ()
 {
-	TRACE (false);
+	TRACE (true);
 
 	if (_iter->next()) {
-		_ws.write(_iter->get(), Row::size);
+		auto p = _iter->get();
+		printf("%d\n",p[0]);
+		_ws.write(p, Row::size);
 		++ _produced;
 		return true;
 	} else {

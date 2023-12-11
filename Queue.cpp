@@ -1,5 +1,6 @@
 #include "Queue.h"
 #include <string.h>
+#include"defs.h"
 
 Queue::~Queue() {
 
@@ -40,12 +41,16 @@ DiskQueue::~DiskQueue() {
 }
 
 char * DiskQueue::get() {
+    TRACE (true);
+    printf("%d\n",_buff[0]);
     return _buff;
 }
 
 bool DiskQueue::next() {
+    TRACE (true);
     memset(_buff, 0, _size);
     int ret = _rs.read(_buff, _size);
+    printf("%d\n",_buff[0]);
     return ret > 0;
 }
 
