@@ -1,7 +1,7 @@
 #include "Tournament.h"
 #include <vector>
 #include <cstring>
-#include <iostream> //TODO comment
+// #include <iostream> //TODO comment
 #include "Queue.h"
 
 TournamentTreeNode::TournamentTreeNode(char* row, int chunk_num) : row(row), chunk_num(chunk_num) {}
@@ -9,6 +9,22 @@ TournamentTreeNode::TournamentTreeNode(char* row, int chunk_num) : row(row), chu
 TournamentTreePlan::TournamentTreePlan(std::vector<Queue*> iterators) {
     for (auto iter : iterators) {
         this->read_iterators.push_back(iter);
+    }
+    int n = this->read_iterators.size();
+
+    if (n && (!(n & (n - 1)))) {
+        return; // It's already a power of two
+    }
+    // Find the nearest power of two
+    int nearestPower = 1;
+    while (n > 0) {
+        n >>= 1;
+        nearestPower <<= 1;
+    }
+
+    // Fill with empty queues
+    for (int i = n; i < nearestPower; i++) {
+        this->read_iterators.push_back(new MemQueue((char*) NULL, 0));
     }
 }
 
@@ -19,8 +35,13 @@ TournamentTreePlan::~TournamentTreePlan() {
 Iterator* TournamentTreePlan::init() {
     // load leaves
     for (int i = 0; i < read_iterators.size(); i++) {
-        TournamentTreeNode* node = new TournamentTreeNode(read_iterators[i]->get(), i);
-        leaves.push_back(node); // no chunk should be empty, so no need to check next()
+        if (read_iterators[i]->next()) {
+            // replace with new elements
+            leaves.push_back(new TournamentTreeNode(read_iterators[i]->get(), i));
+        } else {
+            // exhausted
+            leaves.push_back(new TournamentTreeNode((char*) NULL, i));
+        } 
     }
 
     // compute tree
