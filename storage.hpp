@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <map>
 
 struct StorageConfig {
     constexpr static size_t kSSDBlkSz = 8 << 10;
@@ -33,6 +34,13 @@ class Storage {
     dev_type_t dev_type;
  };
 
+ struct StorageStat{
+    inline static std::map<size_t, size_t> ssd_stat, hdd_stat;
+    static void print();
+    static void reset();
+    static void access(Storage::dev_type_t dev_type, size_t sz);
+};
+
 class WriteStream {
    protected:
     std::unique_ptr<Storage> hdd;
@@ -56,5 +64,6 @@ class ReadStream {
 
    public:
     ReadStream(std::string file_name, bool enable_cache = true);
+    ~ReadStream();
     size_t read(void* buf, size_t size);
 };

@@ -2,7 +2,6 @@
 
 #include "storage.hpp"
 int main() {
-    StorageConfig::base_dir = "test/";
     size_t record_sz = 1000, num = 10000;
     auto record = std::make_unique<uint8_t[]>(record_sz);
     {
@@ -13,7 +12,9 @@ int main() {
             writer.write(record.get(), record_sz);
         }
     }
+    StorageStat::print();
     for (size_t bCache = 0; bCache < 2; bCache++) {
+        StorageStat::reset();
         {
             ReadStream reader("1", bCache);
             for (size_t i = 0; i < num; i++) {
@@ -33,5 +34,6 @@ int main() {
                     assert(*((uint64_t *)(records.get() + i * record_sz) + j) == i * j);
             }
         }
+        StorageStat::print();
     }
 }
