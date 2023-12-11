@@ -83,6 +83,8 @@ void InSortIterator::dump(){
 		_ws.write(p, Row::size);
 	}
 	resetFanInList();
+	delete iter;
+	delete tt;	
 }
 
 void InSortIterator::resetFanInList() 

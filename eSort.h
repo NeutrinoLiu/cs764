@@ -27,5 +27,6 @@ private:
 	RowCount _consumed, _produced;
 	WriteStream _ws;
 	vector<Queue *> _fanInList;
+	TournamentTreePlan* _tt;
 	Iterator* _iter;
 }; // class eSortIterator

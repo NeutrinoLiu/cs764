@@ -23,6 +23,13 @@ void test(int record_size, size_t record_num) {
 }
 
 int main(int argc, char* argv[]) {
-    // initRandSeed();
-    test(64, 3);
+    initRandSeed();
+    puts("\n\nTest 1M x 50B\n");
+    test(50, 1 << 20);
+    puts("\n\nTest 2.5M x 50B\n");
+    test(50, (2048 + 512) << 10);
+    puts("\n\nTest 12M x 1KB\n");
+    test(1024, 12 << 20);
+    puts("\n\nTest 120M x 1KB\n");
+    test(1024, 120 << 20);
 }  // main

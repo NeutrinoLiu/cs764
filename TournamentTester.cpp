@@ -12,7 +12,7 @@ class VectorQueue : public Queue {
     ~VectorQueue();
 
     std::vector<char*> vec;
-    int index;
+    size_t index;
 };
 
 VectorQueue::VectorQueue(std::vector<char*> vec) : vec(vec) {

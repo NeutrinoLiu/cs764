@@ -35,8 +35,8 @@ eSortIterator::eSortIterator (eSortPlan const * const plan) :
 			new DiskQueue(genFileName(i, FILE_PREFIX_INNER_SORTED)) 
 		);
 	}
-	TournamentTreePlan* tt = new TournamentTreePlan(_fanInList);
-	_iter = tt->init();
+	_tt = new TournamentTreePlan(_fanInList);
+	_iter = _tt->init();
 
 	traceprintf ("consumed %lu rows\n",
 			(unsigned long) (_consumed));
@@ -50,6 +50,8 @@ eSortIterator::~eSortIterator ()
 		delete *i;
 	}
 	_fanInList.clear();
+	delete _iter;
+	delete _tt;
 	
 	traceprintf ("produced %lu of %lu rows\n",
 			(unsigned long) (_produced),
@@ -58,11 +60,10 @@ eSortIterator::~eSortIterator ()
 
 bool eSortIterator::next ()
 {
-	TRACE (true);
+	TRACE (false);
 
 	if (_iter->next()) {
 		auto p = _iter->get();
-		printf("%d\n",p[0]);
 		_ws.write(p, Row::size);
 		++ _produced;
 		return true;
