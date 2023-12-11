@@ -12,8 +12,7 @@ using namespace std;
 
 struct Row {
     friend class MemQueue;
-    static string genHash(string raw);
-    static int size;
+    static size_t size;
     static int compare(const void * a, const void * b);
     static vector<int> COLWIDTH;
 private:
@@ -21,11 +20,11 @@ private:
 public:
     Row(char * base);
     char * col(int index);
-    char * hash();
+    row_hash_t & hash();
+    void genHash();
+    void genCols();
     void setColMap(vector<int> colMap);
 };
 
-string xorStrings(const string str1, const string str2);
 extern string genFileName(int index, string prefix);
 extern void initRandSeed();
-extern string genRandString(int size);

@@ -8,6 +8,7 @@ src= [
   'defs.cpp',
   'Iterator.cpp',
   'Scan.cpp',
+  'Filter.cpp',
   'InSort.cpp',
   'eSort.cpp',
   'Queue.cpp',

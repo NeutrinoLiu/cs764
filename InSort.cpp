@@ -21,8 +21,8 @@ Iterator * InSortPlan::init ()
 InSortIterator::InSortIterator (InSortPlan const * const plan) :
 	_plan (plan), _input (plan->_input->init ()),
 	_consumed (0), _produced (0),
-	_rs(genFileName(0, FILE_PREFIX_RAW)),
-	_ws(NULL), _ws_ctr(0), _numFetchedRow(0)  
+	_rs(genFileName(0, FILE_PREFIX_RAW), false),
+	_ws_ctr(0), _numFetchedRow(0)  
 {
 	TRACE (true);
 
@@ -46,7 +46,7 @@ InSortIterator::~InSortIterator ()
 	instead of a single row size */
 bool InSortIterator::next () 
 {
-	TRACE (true);
+	TRACE (false);
 	if(_numFetchedRow > 0){
 		_numFetchedRow--; 
 		_produced++;
@@ -57,6 +57,7 @@ bool InSortIterator::next ()
 	int ret = _rs.read(buff, CACHE_SIZE/Row::size * Row::size);
 	_numFetchedRow = ret / Row::size;
 	if(_numFetchedRow == 0) {
+		if(!_fanInList.empty()) dump();
 		return false;	
 	}else {
 		qsort(buff, _numFetchedRow, Row::size, Row::compare);
@@ -65,21 +66,24 @@ bool InSortIterator::next ()
 		);
 	}
 
-	if (_fanInList.size() == MEM_SIZE / CACHE_SIZE -1 || _numFetchedRow < CACHE_SIZE / Row::size) { // memory is full or data is exhausted
-		TournamentTreePlan* tt = new TournamentTreePlan(_fanInList);
-		Iterator* iter = tt->init();
-		_ws = new WriteStream(genFileName(_ws_ctr++, FILE_PREFIX_INNER_SORTED));
-		while (iter->next()) {
-			_ws->write(iter->get(), Row::size);
-		}
-		resetFanInList();
-		delete _ws;
-	}
+	if (_fanInList.size() == MEM_SIZE / CACHE_SIZE -1)  // memory is full 
+		dump();
 
 	_numFetchedRow--; 
 	_produced++;
 	return true;
 } // InSortIterator::next
+
+void InSortIterator::dump(){
+	TournamentTreePlan* tt = new TournamentTreePlan(_fanInList);
+	Iterator* iter = tt->init();
+	WriteStream _ws(genFileName(_ws_ctr++, FILE_PREFIX_INNER_SORTED));
+	while (iter->next()) {
+		auto p = iter->get();
+		_ws.write(p, Row::size);
+	}
+	resetFanInList();
+}
 
 void InSortIterator::resetFanInList() 
 {

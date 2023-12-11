@@ -22,8 +22,8 @@ bool MemQueue::next() {
         return true;
     } else return false;
 }
-char * MemQueue::get() {
-    return _buff + _ctr * _size;
+char * MemQueue::get() {    
+    return _buff + (_ctr - 1) * _size;
 }
 
 

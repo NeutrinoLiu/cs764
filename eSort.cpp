@@ -58,7 +58,7 @@ eSortIterator::~eSortIterator ()
 
 bool eSortIterator::next ()
 {
-	TRACE (true);
+	TRACE (false);
 
 	if (_iter->next()) {
 		_ws.write(_iter->get(), Row::size);

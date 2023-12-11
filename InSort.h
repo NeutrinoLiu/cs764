@@ -27,9 +27,9 @@ private:
 	Iterator * const _input;
 	RowCount _consumed, _produced;
 	ReadStream _rs;
-	WriteStream* _ws;
 	int _ws_ctr;
 	vector<Queue *> _fanInList;
 	size_t _numFetchedRow;
+	void dump();
 
 }; // class InSortIterator

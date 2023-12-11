@@ -33,20 +33,20 @@ ScanIterator::~ScanIterator ()
 
 bool ScanIterator::next ()
 {
-	TRACE (true);
+	TRACE (false);
 
 	if (_count >= _plan->_count)
 		return false;
 
 	// gen new row
-	string row;
-	for (int i = 0; i < Row::COLWIDTH.size() - 1; i++) {
-		row += genRandString(Row::COLWIDTH[i]);
-	}
-	row += Row::genHash(row);
+	char * _row= new char[Row::size];
+	Row row(_row);
+	row.genCols();
+	row.genHash();
 	// traceprintf("generate a new row: %s with length %zu \n", row.c_str(), row.size());
-	_ws.write((void *)row.c_str(), row.size());
+	_ws.write(_row, row.size);
 
+	delete[] _row;
 	++ _count;
 	return true;
 } // ScanIterator::next

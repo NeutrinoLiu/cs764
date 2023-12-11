@@ -1,24 +1,28 @@
-#include "common.h"
-#include "Iterator.h"
-#include "Scan.h"
 #include "Filter.h"
 #include "InSort.h"
+#include "Iterator.h"
+#include "Scan.h"
+#include "common.h"
 #include "eSort.h"
 
-int main (int argc, char * argv [])
-{
-	// StorageConfig::base_dir = "test/";
-	TRACE (true);
-	initRandSeed();
-	
-	Plan * const plan = 
-	new eSortPlan( new InSortPlan( new ScanPlan (7)));
+void test(int record_size, size_t record_num) {
+    TRACE(true);
+    Row::size = record_size;
+    int col_sz = (record_size - HASH_SIZE) / 3;
+    Row::COLWIDTH = {col_sz, col_sz, col_sz, record_size - 3 * col_sz};
 
-	Iterator * const it = plan->init ();
-	it->run ();
-	delete it;
+    Plan* const plan =
+        new eSortPlan(new InSortPlan(new ScanPlan(record_num)));
 
-	delete plan;
+    Iterator* const it = plan->init();
+    it->run();
+    delete it;
 
-	return 0;
-} // main
+    delete plan;
+    StorageStat::print();
+}
+
+int main(int argc, char* argv[]) {
+    // initRandSeed();
+    test(64, 3);
+}  // main
