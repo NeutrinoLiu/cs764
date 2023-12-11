@@ -76,6 +76,8 @@ bool InSortIterator::next ()
 		delete _ws;
 	}
 
+	_numFetchedRow--; 
+	_produced++;
 	return true;
 } // InSortIterator::next
 

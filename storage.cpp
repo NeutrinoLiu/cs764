@@ -16,8 +16,7 @@ Storage::~Storage() {
     if (file) fclose(file);
 }
 
-size_t Storage::access(void* buf, size_t sz) {
-    // TODO: print access trace/statistics
+size_t Storage::access(void* buf, size_t sz) {    
     if (file == nullptr) return 0;
     auto ret = mode == READ ? fread(buf, sizeof(uint8_t), sz, file) : fwrite(buf, sizeof(uint8_t), sz, file);
     StorageStat::access(dev_type, ret);
