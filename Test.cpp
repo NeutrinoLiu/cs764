@@ -7,6 +7,7 @@
 
 int main (int argc, char * argv [])
 {
+	// StorageConfig::base_dir = "test/";
 	TRACE (true);
 	initRandSeed();
 	

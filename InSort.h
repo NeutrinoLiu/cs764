@@ -30,4 +30,6 @@ private:
 	WriteStream* _ws;
 	int _ws_ctr;
 	vector<Queue *> _fanInList;
+	size_t _numFetchedRow;
+
 }; // class InSortIterator

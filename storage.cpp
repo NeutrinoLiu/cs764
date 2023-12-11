@@ -4,16 +4,12 @@
 #include <cassert>
 #include <cstring>
 
-Storage::Storage(std::string file_name, mode_t _mode, dev_type_t _dev_type) : mode(_mode), dev_type(_dev_type), file_size(0) {
+Storage::Storage(std::string file_name, mode_t _mode, dev_type_t _dev_type) : mode(_mode), dev_type(_dev_type) {
     std::string dev_str = dev_type == HDD ? StorageConfig::hdd_dir : StorageConfig::ssd_dir;
     std::string path = StorageConfig::base_dir + dev_str + file_name;
     file = fopen(path.c_str(), mode == READ ? "rb" : "wb");
-    if (file == nullptr) perror("Error opening file");
-    if (mode == READ) {
-        fseek(file, 0, SEEK_END);
-        file_size = ftell(file);
-        fseek(file, 0, SEEK_SET);
-    }
+    if (file == nullptr) 
+        perror("Error opening file");
 }
 
 Storage::~Storage() {
@@ -28,6 +24,14 @@ size_t Storage::access(void* buf, size_t sz) {
     } else {
         return fwrite(buf, sizeof(uint8_t), sz, file);
     }
+}
+
+size_t Storage::get_size(){
+    auto current =  ftell(file);
+    fseek(file, 0, SEEK_END);
+    auto ret = ftell(file);
+    fseek(file, current, SEEK_SET);
+    return ret;
 }
 
 WriteStream::WriteStream(std::string file_name) : offset(0), buffer_size(StorageConfig::kHDDBlkSz) {
@@ -60,13 +64,15 @@ WriteStream::~WriteStream() {
 }
 
 ReadStream::ReadStream(std::string _file_name, bool enable_cache) : offset(0), file_name(_file_name), bCache(enable_cache) {
-    buffer_size = enable_cache ? StorageConfig::kSSDBlkSz : StorageConfig::kHDDBlkSz;
-    buffer = std::make_unique<uint8_t[]>(buffer_size);
+    buffer_size = enable_cache ? StorageConfig::kSSDBlkSz : StorageConfig::kHDDBlkSz;    
     hdd = std::make_unique<Storage>(file_name, Storage::READ);
-    load_buf();
 }
 
 size_t ReadStream::read(void* _buf, size_t size) {
+    if(buffer == nullptr){
+        buffer = std::make_unique<uint8_t[]>(buffer_size);
+        load_buf();
+    }
     size = std::min(hdd->get_size() - offset, size);
     auto ret = size;
     auto buf = (uint8_t*)_buf;

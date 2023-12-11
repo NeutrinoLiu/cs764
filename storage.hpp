@@ -25,14 +25,13 @@ class Storage {
     Storage(std::string file_name, mode_t _mode, dev_type_t _dev_type = HDD);
     ~Storage();
     size_t access(void* buf, size_t sz);
-    inline size_t get_size() { return file_size; }
+    size_t get_size();
 
    protected:
     FILE* file;
     mode_t mode;
     dev_type_t dev_type;
-    size_t file_size;
-};
+ };
 
 class WriteStream {
    protected:
