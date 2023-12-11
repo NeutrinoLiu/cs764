@@ -12,7 +12,7 @@ void test(int record_size, size_t record_num) {
     Row::COLWIDTH = {col_sz, col_sz, col_sz, record_size - 3 * col_sz};
 
     Plan* const plan =
-        new eSortPlan(new InSortPlan(new ScanPlan(record_num)));
+        new FilterPlan(new eSortPlan(new InSortPlan(new ScanPlan(record_num))));
 
     Iterator* const it = plan->init();
     it->run();
